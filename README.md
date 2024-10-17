@@ -38,7 +38,7 @@ Maven:
 Gradle:
 ```groovy
 dependencies {
-    implementation 'com.github.Nexatrix-Studios:TokenManager2:VERSION'
+    implementation 'com.github.Nexatrix-Studios:TokenManager:VERSION'
 }
 ```  
 Replace 'VERSION' with version
