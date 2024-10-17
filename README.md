@@ -1,6 +1,6 @@
 <h1>TokenManager</h1> 
 
-[![](https://jitpack.io/v/Nexatrix-Studios/TokenManager2.svg)](https://jitpack.io/#Nexatrix-Studios/TokenManager2)
+[![](https://jitpack.io/v/Nexatrix-Studios/TokenManager.svg)](https://jitpack.io/#Nexatrix-Studios/TokenManager)
 
 ### Please note that this is not the original plugin this a forked version that supports 1.21.
 
