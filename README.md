@@ -2,16 +2,17 @@
 
 [![](https://jitpack.io/v/Nexatrix-Studios/TokenManager2.svg)](https://jitpack.io/#Nexatrix-Studios/TokenManager2)
 
----
-### Please note that this is not the original plugin this a forked version what supports 1.21.
+### Please note that this is not the original plugin this a forked version that supports 1.21.
 
+---
+
+* **[Discord](https://discord.gg/vA4Xg9KqeJ)**
 * **[Wiki](https://github.com/Realizedd/TokenManager/wiki)**
 * **[Commands](https://github.com/Realizedd/TokenManager/wiki/commands)**
 * **[Permissions](https://github.com/Realizedd/TokenManager/wiki/permissions)**
-* **[config.yml](https://github.com/Realizedd/TokenManager/blob/master/src/main/resources/config.yml)**
-* **[lang.yml](https://github.com/Realizedd/TokenManager/blob/master/src/main/resources/lang.yml)**
-* **[shops.yml](https://github.com/Realizedd/TokenManager/blob/master/src/main/resources/shops.yml)**
-* **[Discord](https://discord.gg/vA4Xg9KqeJ)**
+* **[config.yml](https://github.com/Nexatrix-Studios/TokenManager/blob/master/src/main/resources/config.yml)**
+* **[lang.yml](https://github.com/Nexatrix-Studios/TokenManager/blob/master/src/main/resources/lang.yml)**
+* **[shops.yml](https://github.com/Nexatrix-Studios/TokenManager/blob/master/src/main/resources/shops.yml)**
 
 
 ### Getting the dependency
