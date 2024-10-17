@@ -2,9 +2,8 @@
 
 [![](https://jitpack.io/v/Nexatrix-Studios/TokenManager2.svg)](https://jitpack.io/#Nexatrix-Studios/TokenManager2)
 
-A simple economy plugin for spigot. <a href="https://www.spigotmc.org/resources/tokenmanager.8610/">Spigot Project Page</a>
-
 ---
+### Please note that this is not the original plugin this a forked version what supports 1.21.
 
 * **[Wiki](https://github.com/Realizedd/TokenManager/wiki)**
 * **[Commands](https://github.com/Realizedd/TokenManager/wiki/commands)**
@@ -45,7 +44,7 @@ Replace 'VERSION' with version
 
 Maven:
 ```xml
-	<dependency>
+<dependency>
     <groupId>com.github.Nexatrix-Studios</groupId>
     <artifactId>TokenManager</artifactId>
     <version>VERSION</version>
