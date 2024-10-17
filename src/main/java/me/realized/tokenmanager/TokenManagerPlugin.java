@@ -39,11 +39,6 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class TokenManagerPlugin extends JavaPlugin implements TokenManager, Listener {
-
-    private static final int RESOURCE_ID = 8610;
-    private static final String ADMIN_UPDATE_MESSAGE = "&9[TM] &bTokenManager &fv%s &7is now available for download! Download at: &c%s";
-    private static final String RESOURCE_URL = "https://www.spigotmc.org/resources/tokenmanager.8610/";
-
     @Getter
     private static TokenManagerPlugin instance;
     public Economy economy;
@@ -87,26 +82,9 @@ public class TokenManagerPlugin extends JavaPlugin implements TokenManager, List
         new TMCommand(this).register();
         new TokenCommand(this).register();
 
-        //new Metrics(this, 2421);
-
         if (!configuration.isCheckForUpdates()) {
             return;
         }
-
-        final UpdateChecker updateChecker = new UpdateChecker(this, RESOURCE_ID);
-        updateChecker.check((hasUpdate, newVersion) -> {
-            if (hasUpdate) {
-                TokenManagerPlugin.this.updateAvailable = true;
-                TokenManagerPlugin.this.newVersion = newVersion;
-                Log.info("===============================================");
-                Log.info("An update for " + getName() + " is available!");
-                Log.info("Download " + getName() + " v" + newVersion + " here:");
-                Log.info(getDescription().getWebsite());
-                Log.info("===============================================");
-            } else {
-                Log.info("No updates were available. You are on the latest version!");
-            }
-        });
         getServer().getPluginManager().registerEvents(this, this);
     }
 

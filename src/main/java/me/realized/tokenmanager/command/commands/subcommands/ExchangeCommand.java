@@ -24,33 +24,36 @@ public class ExchangeCommand extends BaseCommand {
             sendMessage(sender, true, "ERROR.not-a-player");
             return;
         }
-
-        final OptionalLong amountOpt = NumberUtil.parseLong(args[1]);
-
-        if (!amountOpt.isPresent() || amountOpt.getAsLong() <= 0) {
-            sendMessage(sender, true, "ERROR.invalid-amount", "input", args[1]);
-            return;
-        }
-
         Player player = (Player) sender;
-        long requiredAmount = amountOpt.getAsLong();
-        double eBalance = plugin.getEconomy().getBalance(player);
-        double missingAmount = requiredAmount - eBalance;
+        if (plugin.getConfiguration().isExchaningEnabled) {
+            final OptionalLong amountOpt = NumberUtil.parseLong(args[1]);
 
-        if (missingAmount > 0) {
-            sendMessage(player, true, "ERROR.exchange-balance-not-enough", "needed", missingAmount);
-            return;
+            if (!amountOpt.isPresent() || amountOpt.getAsLong() <= 0) {
+                sendMessage(sender, true, "ERROR.invalid-amount", "input", args[1]);
+                return;
+            }
+
+            long requiredAmount = amountOpt.getAsLong();
+            double eBalance = plugin.getEconomy().getBalance(player);
+            double missingAmount = requiredAmount - eBalance;
+
+            if (missingAmount > 0) {
+                sendMessage(player, true, "ERROR.exchange-balance-not-enough", "needed", missingAmount);
+                return;
+            }
+
+            if (requiredAmount < plugin.getConfiguration().getMinMoneyToExchange()) {
+                sendMessage(player, true, "ERROR.exchange-too-small", "min-amount", plugin.getConfiguration().getMinMoneyToExchange());
+                return;
+            }
+            plugin.getEconomy().withdrawPlayer(player, requiredAmount);
+
+            long tokens = requiredAmount * plugin.getConfiguration().getExchangeValue();
+            plugin.addTokens(player, tokens);
+            sendMessage(player, true, "COMMAND.token.exchange-successful", "money", requiredAmount, "amount", tokens);
+        } else {
+            sendMessage(player, true, "ERROR.exchanging-not-enabled");
         }
-
-        if (requiredAmount < plugin.getConfiguration().getMinMoneyToExchange()) {
-            sendMessage(player, true, "ERROR.exchange-too-small", "min-amount", plugin.getConfiguration().getMinMoneyToExchange());
-            return;
-        }
-        plugin.getEconomy().withdrawPlayer(player, requiredAmount);
-
-        long tokens = requiredAmount * plugin.getConfiguration().getExchangeValue();
-        plugin.addTokens(player, tokens);
-        sendMessage(player, true, "COMMAND.token.exchange-successful", "money", requiredAmount, "amount", tokens);
     }
 
 }

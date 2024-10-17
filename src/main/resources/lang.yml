@@ -26,6 +26,7 @@ ERROR:
   on-slot-cancel: '&cYou cannot purchase this item again.'
   exchange-too-small: "{PREFIX} &cThe amount you are trying to exchange is too small! Min amount: %min-amount%"
   exchange-balance-not-enough: "{PREFIX} &cYou do not have enough $ to exchange! You need $%needed% more!"
+  exchanging-not-enabled: "{PREFIX} &cExchaning is currently disabled"
 
 COMMAND:
   token:

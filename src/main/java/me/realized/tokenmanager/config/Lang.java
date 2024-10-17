@@ -171,6 +171,7 @@ public class Lang extends AbstractConfiguration<TokenManagerPlugin> implements R
             keys.put("click-spamming", "ERROR.on-click-cooldown");
             keys.put("exchange-too-small", "ERROR.exchange-too-small");
             keys.put("exchange-balance-not-enough", "ERROR.exchange-balance-not-enough");
+            keys.put("exchanging-not-enabled", "ERROR.exchanging-not-enabled");
             keys.put("token-help-page", "COMMAND.token.usage");
             keys.put("tm-help-page", "COMMAND.tokenmanager.usage");
             keys.put("sub-command-usage", "COMMAND.sub-command-usage");
