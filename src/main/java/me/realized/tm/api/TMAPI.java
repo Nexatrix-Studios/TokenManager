@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 @Deprecated
 public class TMAPI {
 
-    private static TokenManager getApi() {
+    public static TokenManager getApi() {
         return TokenManagerPlugin.getInstance();
     }
 

@@ -1,5 +1,5 @@
 # DO NOT EDIT THIS VALUE!
-config-version: 8
+config-version: 9
 
 # Define placeholders usable in any message below.
 # Example: Adding 'PREFIX: "[Cool]"' below and then putting '{PREFIX}' in a message will display '[Cool]' when the message is sent in game.
@@ -12,7 +12,7 @@ ERROR:
   no-permission: '&cNope! You are missing %permission% to do this.'
   invalid-amount: '&c''%input%'' is not a valid amount!'
   player-not-found: '&cPlayer ''%input%'' is not online.'
-  shop-not-found: '&cShop ''%input%'' does not exist.'
+  shop-not-found: '{PREFIX} &cShop ''%input%'' does not exist.'
   invalid-sub-command: '{PREFIX} &7''&b%input%&7'' is not a valid sub command. Please type ''&b/%command%&7'' for help.'
   balance-not-enough: '&cNot enough tokens! You need %needed% tokens more.'
   data-not-enough: '&cNot enough data found to display the top token balances.'
@@ -24,6 +24,8 @@ ERROR:
   inventory-is-full: '&cYour inventory is full!'
   not-enough-space: '&cYou need at least %slots% empty inventory slots to do this.'
   on-slot-cancel: '&cYou cannot purchase this item again.'
+  exchange-too-small: "{PREFIX} &cThe amount you are trying to exchange is too small! Min amount: %min-amount%"
+  exchange-balance-not-enough: "{PREFIX} &cYou do not have enough $ to exchange! You need $%needed% more!"
 
 COMMAND:
   token:
@@ -37,6 +39,7 @@ COMMAND:
     - '&b/token sell <all> &8» &7Converts your held item or the entire inventory to tokens.'
     - '&b/token worth <all> &8» &7Shows the worth of your held item or the entire inventory.'
     - '&b/token top &8» &7Displays the top token balances.'
+    - '&b/token exchange <amount> &8» &7Exchanges that $ amount from your balance to tokens'
     - '{FOOTER}'
 
     send: '{PREFIX} &7Sent &b%amount% tokens &7to %player%.'
@@ -55,6 +58,7 @@ COMMAND:
     worth-all:
       item-format: '&a%item_type% (x%item_amount%): &l+%amount% tokens'
       total: '{PREFIX} &7Your inventory &f(%item_amount% items) &7is worth &b%amount% tokens&7. Type &f/token sell all &7to sell your inventory.'
+    exchange-successful: "&aYou have successfully exchanged &2$%money% &afor &2%amount% tokens!"
 
   tokenmanager:
     usage:

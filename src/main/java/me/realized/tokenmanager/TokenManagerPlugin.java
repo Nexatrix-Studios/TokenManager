@@ -26,6 +26,7 @@ import me.realized.tokenmanager.util.NumberUtil;
 import me.realized.tokenmanager.util.Reloadable;
 import me.realized.tokenmanager.util.StringUtil;
 import me.realized.tokenmanager.util.UpdateChecker;
+import net.milkbowl.vault.economy.Economy;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -34,6 +35,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class TokenManagerPlugin extends JavaPlugin implements TokenManager, Listener {
@@ -44,6 +46,7 @@ public class TokenManagerPlugin extends JavaPlugin implements TokenManager, List
 
     @Getter
     private static TokenManagerPlugin instance;
+    public Economy economy;
 
     private final List<Loadable> loadables = new ArrayList<>();
     private int lastLoad;
@@ -84,7 +87,7 @@ public class TokenManagerPlugin extends JavaPlugin implements TokenManager, List
         new TMCommand(this).register();
         new TokenCommand(this).register();
 
-        new Metrics(this, 2421);
+        //new Metrics(this, 2421);
 
         if (!configuration.isCheckForUpdates()) {
             return;
@@ -385,4 +388,43 @@ public class TokenManagerPlugin extends JavaPlugin implements TokenManager, List
             player.sendMessage(StringUtil.color(String.format(ADMIN_UPDATE_MESSAGE, newVersion, RESOURCE_URL)));
         }
     }
+    public static TokenManagerPlugin getInstance() {
+        return instance;
+    }
+
+    public Config getConfiguration() {
+        return this.configuration;
+    }
+
+    public Lang getLang() {
+        return this.lang;
+    }
+
+    public DataManager getDataManager() {
+        return this.dataManager;
+    }
+
+    public ShopConfig getShopConfig() {
+        return this.shopConfig;
+    }
+
+    public ShopManager getShopManager() {
+        return this.shopManager;
+    }
+
+    public WorthConfig getWorthConfig() {
+        return this.worthConfig;
+    }
+    public Economy getEconomy() {
+        if (economy == null) {
+            RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+            if (rsp != null) {
+                economy = rsp.getProvider();
+            } else {
+                getLogger().warning("Vault not found! Economy features will not work.");
+            }
+        }
+        return economy;
+    }
+
 }

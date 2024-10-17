@@ -169,6 +169,8 @@ public class Lang extends AbstractConfiguration<TokenManagerPlugin> implements R
             keys.put("not-enough-tokens", "ERROR.balance-not-enough");
             keys.put("no-data", "ERROR.data-not-enough");
             keys.put("click-spamming", "ERROR.on-click-cooldown");
+            keys.put("exchange-too-small", "ERROR.exchange-too-small");
+            keys.put("exchange-balance-not-enough", "ERROR.exchange-balance-not-enough");
             keys.put("token-help-page", "COMMAND.token.usage");
             keys.put("tm-help-page", "COMMAND.tokenmanager.usage");
             keys.put("sub-command-usage", "COMMAND.sub-command-usage");
@@ -177,6 +179,7 @@ public class Lang extends AbstractConfiguration<TokenManagerPlugin> implements R
             keys.put("top-format", "COMMAND.token.balance-top.display-format");
             keys.put("top-footer", "COMMAND.token.balance-top.footer");
             keys.put("balance", "COMMAND.token.balance");
+            keys.put("exchange-successful", "COMMAND.token.exchange-successful");
             keys.put("balance-others", "COMMAND.token.balance-other");
             keys.put("on-send", "COMMAND.token.send");
             keys.put("on-receive", "COMMAND.add");

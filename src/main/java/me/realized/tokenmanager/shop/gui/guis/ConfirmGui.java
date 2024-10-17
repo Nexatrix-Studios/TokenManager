@@ -37,9 +37,9 @@ public class ConfirmGui extends BaseGui {
     }
 
     private ItemStack replace(final Player player, final ItemStack item, final long balance, final int price) {
-        Placeholders.replace(item, price, "price");
-        Placeholders.replace(item, balance, "tokens", "balance");
-        Placeholders.replace(item, player.getName(), "player");
+        Placeholders.replace(player, item, price, "price");
+        Placeholders.replace(player, item, balance, "tokens", "balance");
+        Placeholders.replace(player, item, player.getName(), "player");
         return item;
     }
 

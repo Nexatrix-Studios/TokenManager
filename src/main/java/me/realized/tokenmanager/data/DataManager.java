@@ -1,3 +1,5 @@
+// Decompiled with: CFR 0.152
+// Class Version: 8
 package me.realized.tokenmanager.data;
 
 import com.google.common.collect.LinkedHashMultimap;
@@ -8,11 +10,9 @@ import java.util.List;
 import java.util.OptionalLong;
 import java.util.UUID;
 import java.util.function.Consumer;
-import lombok.Getter;
 import me.realized.tokenmanager.TokenManagerPlugin;
-import me.realized.tokenmanager.command.commands.subcommands.OfflineCommand.ModifyType;
+import me.realized.tokenmanager.command.commands.subcommands.OfflineCommand;
 import me.realized.tokenmanager.data.database.Database;
-import me.realized.tokenmanager.data.database.Database.TopElement;
 import me.realized.tokenmanager.data.database.FileDatabase;
 import me.realized.tokenmanager.data.database.MySQLDatabase;
 import me.realized.tokenmanager.util.Loadable;
@@ -27,151 +27,136 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitScheduler;
 
-public class DataManager implements Loadable, Listener {
-
+public class DataManager
+        implements Loadable,
+        Listener {
     private final TokenManagerPlugin plugin;
-
     private Database database;
-
-    @Getter
-    private List<TopElement> topCache = new ArrayList<>();
-    private Integer topTask, updateInterval;
+    private List<Database.TopElement> topCache = new ArrayList<Database.TopElement>();
+    private Integer topTask;
+    private Integer updateInterval;
     private long lastUpdateMillis;
-
     private final Multimap<UUID, QueuedCommand> queuedCommands = LinkedHashMultimap.create();
 
-    public DataManager(final TokenManagerPlugin plugin) {
+    public DataManager(TokenManagerPlugin plugin) {
         this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
     @Override
     public void handleLoad() throws Exception {
-        this.database = plugin.getConfiguration().isMysqlEnabled() ? new MySQLDatabase(plugin) : new FileDatabase(plugin);
-        final boolean online = database.isOnlineMode();
+        this.database = this.plugin.getConfiguration().isMysqlEnabled() ? new MySQLDatabase(this.plugin) : new FileDatabase(this.plugin);
+        boolean online = this.database.isOnlineMode();
         Log.info("===============================================");
         Log.info("TokenManager has detected your server as " + (online ? "online" : "offline") + " mode.");
         Log.info("DataManager will operate with " + (online ? "UUID" : "Username") + "s.");
         Log.info("If your server is NOT in " + (online ? "online" : "offline") + " mode, please manually set online-mode in TokenManager's config.yml.");
         Log.info("===============================================");
-        database.setup();
-
-        topTask = plugin.doSyncRepeat(() -> database.ordered(10, args -> plugin.doSync(() -> {
-            lastUpdateMillis = System.currentTimeMillis();
-            topCache = args;
-        })), 0L, 20L * 60L * getUpdateInterval());
-
-        Bukkit.getOnlinePlayers().forEach(player -> database.load(player));
+        this.database.setup();
+        this.topTask = this.plugin.doSyncRepeat(() -> this.database.ordered(10, args -> this.plugin.doSync(() -> {
+            this.lastUpdateMillis = System.currentTimeMillis();
+            this.topCache = args;
+        })), 0L, 1200L * (long)this.getUpdateInterval());
+        Bukkit.getOnlinePlayers().forEach(player -> this.database.load((Player)player));
     }
 
     @Override
     public void handleUnload() throws Exception {
-        if (topTask != null) {
-            final BukkitScheduler scheduler = Bukkit.getScheduler();
-
-            if (scheduler.isCurrentlyRunning(topTask) || scheduler.isQueued(topTask)) {
-                scheduler.cancelTask(topTask);
-            }
+        BukkitScheduler scheduler;
+        if (this.topTask != null && ((scheduler = Bukkit.getScheduler()).isCurrentlyRunning(this.topTask) || scheduler.isQueued(this.topTask))) {
+            scheduler.cancelTask(this.topTask);
         }
-
-        database.shutdown();
-        database = null;
+        this.database.shutdown();
+        this.database = null;
     }
 
-    public OptionalLong get(final Player player) {
-        return database != null ? database.get(player) : OptionalLong.empty();
+    public OptionalLong get(Player player) {
+        return this.database != null ? this.database.get(player) : OptionalLong.empty();
     }
 
-    public void set(final Player player, final long amount) {
-        if (database != null) {
-            database.set(player, amount);
+    public void set(Player player, long amount) {
+        if (this.database != null) {
+            this.database.set(player, amount);
         }
     }
 
-    public void get(final String key, final Consumer<OptionalLong> onLoad, final Consumer<String> onError) {
-        if (database != null) {
-            database.get(key, onLoad, onError, false);
+    public void get(String key, Consumer<OptionalLong> onLoad, Consumer<String> onError) {
+        if (this.database != null) {
+            this.database.get(key, onLoad, onError, false);
         }
     }
 
-    public void set(final String key, final ModifyType type, final long amount, final long balance, final boolean silent, final Runnable onDone,
-        final Consumer<String> onError) {
-        if (database != null) {
-            database.set(key, type, amount, balance, silent, onDone, onError);
+    public void set(String key, OfflineCommand.ModifyType type, long amount, long balance, boolean silent, Runnable onDone, Consumer<String> onError) {
+        if (this.database != null) {
+            this.database.set(key, type, amount, balance, silent, onDone, onError);
         }
     }
 
-    public void transfer(final CommandSender sender, final Consumer<String> onError) {
-        if (database != null) {
-            database.transfer(sender, onError);
+    public void transfer(CommandSender sender, Consumer<String> onError) {
+        if (this.database != null) {
+            this.database.transfer(sender, onError);
         }
     }
 
-    public void queueCommand(final Player player, final ModifyType type, final long amount, final boolean silent) {
-        queuedCommands.put(player.getUniqueId(), new QueuedCommand(type, amount, silent));
+    public void queueCommand(Player player, OfflineCommand.ModifyType type, long amount, boolean silent) {
+        this.queuedCommands.put(player.getUniqueId(), new QueuedCommand(type, amount, silent));
     }
 
     private int getUpdateInterval() {
-        if (updateInterval != null) {
-            return updateInterval;
+        if (this.updateInterval != null) {
+            return this.updateInterval;
         }
-
-        return (updateInterval = plugin.getConfiguration().getBalanceTopUpdateInterval()) < 1 ? 1 : updateInterval;
+        this.updateInterval = this.plugin.getConfiguration().getBalanceTopUpdateInterval();
+        return this.updateInterval < 1 ? 1 : this.updateInterval;
     }
 
     public String getNextUpdate() {
-        return StringUtil.format((lastUpdateMillis + 60000L * getUpdateInterval() - System.currentTimeMillis()) / 1000);
+        return StringUtil.format((this.lastUpdateMillis + 60000L * (long)this.getUpdateInterval() - System.currentTimeMillis()) / 1000L);
     }
 
     @EventHandler
-    public void on(final PlayerJoinEvent event) {
-        final Player player = event.getPlayer();
-
-        if (database == null) {
+    public void on(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        if (this.database == null) {
             return;
         }
-
-        database.load(player, balance -> {
-            final Collection<QueuedCommand> commands = queuedCommands.asMap().remove(player.getUniqueId());
-
+        this.database.load(player, balance -> {
+            Collection<QueuedCommand> commands = this.queuedCommands.asMap().remove(player.getUniqueId());
             if (commands == null) {
                 return balance;
             }
-
             long total = balance;
-
-            for (final QueuedCommand command : commands) {
-                final ModifyType type = command.type;
-                final long amount = command.amount;
+            for (QueuedCommand command : commands) {
+                OfflineCommand.ModifyType type = command.type;
+                long amount = command.amount;
                 total = type.apply(total, amount);
-
-                if (!command.silent) {
-                    plugin.getLang().sendMessage(player, true, "COMMAND." + (type == ModifyType.ADD ? "add" : "remove"), "amount", amount);
-                }
+                if (command.silent) continue;
+                this.plugin.getLang().sendMessage(player, true, "COMMAND." + (type == OfflineCommand.ModifyType.ADD ? "add" : "remove"), "amount", amount);
             }
-
             return total;
         });
     }
 
     @EventHandler
-    public void on(final PlayerQuitEvent event) {
-        if (database == null) {
+    public void on(PlayerQuitEvent event) {
+        if (this.database == null) {
             return;
         }
+        Player player = event.getPlayer();
+        this.queuedCommands.asMap().remove(player.getUniqueId());
+        this.database.save(player);
+    }
 
-        final Player player = event.getPlayer();
-        queuedCommands.asMap().remove(player.getUniqueId());
-        database.save(player);
+    public List<Database.TopElement> getTopCache() {
+        return this.topCache;
     }
 
     private class QueuedCommand {
-
-        private final ModifyType type;
+        private final OfflineCommand.ModifyType type;
         private final long amount;
         private final boolean silent;
 
-        QueuedCommand(final ModifyType type, final long amount, final boolean silent) {
+        QueuedCommand(OfflineCommand.ModifyType type, long amount, boolean silent) {
             this.type = type;
             this.amount = amount;
             this.silent = silent;

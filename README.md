@@ -1,6 +1,6 @@
 <h1>TokenManager</h1> 
 
-[![](https://jitpack.io/v/Realizedd/TokenManager.svg)](https://jitpack.io/#Realizedd/TokenManager)
+[![](https://jitpack.io/v/Nexatrix-Studios/TokenManager2.svg)](https://jitpack.io/#Nexatrix-Studios/TokenManager2)
 
 A simple economy plugin for spigot. <a href="https://www.spigotmc.org/resources/tokenmanager.8610/">Spigot Project Page</a>
 
@@ -12,7 +12,7 @@ A simple economy plugin for spigot. <a href="https://www.spigotmc.org/resources/
 * **[config.yml](https://github.com/Realizedd/TokenManager/blob/master/src/main/resources/config.yml)**
 * **[lang.yml](https://github.com/Realizedd/TokenManager/blob/master/src/main/resources/lang.yml)**
 * **[shops.yml](https://github.com/Realizedd/TokenManager/blob/master/src/main/resources/shops.yml)**
-* **[Support Discord](https://discord.gg/RNy45sg)**
+* **[Discord](https://discord.gg/vA4Xg9KqeJ)**
 
 
 ### Getting the dependency
@@ -37,25 +37,21 @@ Maven:
 #### Dependency
 Gradle:
 ```groovy
-compile (group: 'com.github.Realizedd', name: 'TokenManager', version: '3.2.4') {
-    transitive = false
+dependencies {
+    implementation 'com.github.Nexatrix-Studios:TokenManager2:VERSION'
 }
 ```  
+Replace 'VERSION' with version
 
 Maven:
 ```xml
-<dependency>
-    <groupId>com.github.Realizedd</groupId>
+	<dependency>
+    <groupId>com.github.Nexatrix-Studios</groupId>
     <artifactId>TokenManager</artifactId>
-    <version>3.2.4</version>
-    <exclusions>
-        <exclusion>
-            <groupId>*</groupId>
-            <artifactId>*</artifactId>
-        </exclusion>
-    </exclusions>
+    <version>VERSION</version>
 </dependency>
 ```
+Replace 'VERSION' with version
 
 ### plugin.yml
 Add TokenManager as a soft-depend to ensure TokenManager is fully loaded before your plugin.

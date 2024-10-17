@@ -29,7 +29,7 @@ public class Slot {
     @Getter
     private final int slot;
     @Getter
-    private final int cost;
+    public final int cost;
     @Getter
     private final int emptySlotsRequired;
     @Getter
@@ -147,5 +147,52 @@ public class Slot {
         }
 
         return true;
+    }
+    public TokenManagerPlugin getPlugin() {
+        return this.plugin;
+    }
+
+    public Config getConfig() {
+        return this.config;
+    }
+
+    public Shop getShop() {
+        return this.shop;
+    }
+
+    public int getSlot() {
+        return this.slot;
+    }
+
+    public int getCost() {
+        return this.cost;
+    }
+
+    public int getEmptySlotsRequired() {
+        return this.emptySlotsRequired;
+    }
+
+    public ItemStack getDisplayed() {
+        return this.displayed;
+    }
+
+    public String getMessage() {
+        return this.message;
+    }
+
+    public String getSubshop() {
+        return this.subshop;
+    }
+
+    public List<String> getCommands() {
+        return this.commands;
+    }
+
+    public boolean isUsePermission() {
+        return this.usePermission;
+    }
+
+    public boolean isConfirmPurchase() {
+        return this.confirmPurchase;
     }
 }

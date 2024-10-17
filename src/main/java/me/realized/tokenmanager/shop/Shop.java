@@ -7,6 +7,7 @@ import lombok.Getter;
 import me.realized.tokenmanager.util.Placeholders;
 import me.realized.tokenmanager.util.StringUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -27,7 +28,7 @@ public class Shop {
     private Map<Integer, Slot> slots;
 
     public Shop(final String name, final String title, final int rows, final boolean autoClose, final boolean usePermission, final boolean confirmPurchase)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Name is null or empty.");
         }
@@ -62,7 +63,7 @@ public class Shop {
     }
 
     public void setSlot(final int slot, final ItemStack displayed, final Slot data) {
-        Placeholders.replace(displayed, data.getCost(), "price");
+        Placeholders.replace(null, displayed, data.getCost(), "price");
         inventory.setItem(slot, displayed);
 
         if (slots == null) {
@@ -72,7 +73,27 @@ public class Shop {
         slots.put(slot, data);
     }
 
-    public Slot getSlot(final int slot) {
-        return slots != null ? slots.get(slot) : null;
+    public Slot getSlot(int slot) {
+        return this.slots != null ? this.slots.get(slot) : null;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    Inventory getInventory() {
+        return this.inventory;
+    }
+
+    public boolean isAutoClose() {
+        return this.autoClose;
+    }
+
+    public boolean isUsePermission() {
+        return this.usePermission;
+    }
+
+    public boolean isConfirmPurchase() {
+        return this.confirmPurchase;
     }
 }

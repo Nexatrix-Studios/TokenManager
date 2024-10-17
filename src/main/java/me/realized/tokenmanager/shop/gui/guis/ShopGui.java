@@ -55,8 +55,8 @@ public class ShopGui extends BaseGui {
                 }
             }
 
-            Placeholders.replace(item, balance, "tokens", "balance");
-            Placeholders.replace(item, player.getName(), "player");
+            Placeholders.replace(player, item, balance, "tokens", "balance");
+            Placeholders.replace(player, item, player.getName(), "player");
             inventory.setItem(slot, item);
         }
     }
