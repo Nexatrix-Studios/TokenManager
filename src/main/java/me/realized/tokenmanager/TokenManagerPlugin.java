@@ -358,14 +358,6 @@ public class TokenManagerPlugin extends JavaPlugin implements TokenManager, List
         return null;
     }
 
-    @EventHandler
-    public void on(final PlayerJoinEvent event) {
-        final Player player = event.getPlayer();
-
-        if (updateAvailable && (player.isOp() || player.hasPermission(Permissions.CMD_ADMIN))) {
-            player.sendMessage(StringUtil.color(String.format(ADMIN_UPDATE_MESSAGE, newVersion, RESOURCE_URL)));
-        }
-    }
     public static TokenManagerPlugin getInstance() {
         return instance;
     }
