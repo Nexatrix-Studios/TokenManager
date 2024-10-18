@@ -39,6 +39,9 @@ repositories {
         name = 'inventive-repo'
         url = 'https://repo.inventivetalent.org/content/groups/public/'
     }
+    maven {
+        url = "https://jitpack.io"
+    }
 
     flatDir {
         dirs = ["$rootDir/libs/"]
